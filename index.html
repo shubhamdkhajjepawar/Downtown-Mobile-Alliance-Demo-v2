@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DMA Membership Form — Brand Preview v2</title>
+<style>
+:root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    --dma-deep-blue: #1e1646;
+    --dma-purple: #594c9f;
+    --dma-light-blue: #a0d8e7;
+    --dma-lavender: #ddcbe4;
+    --dma-teal: #275e71;
+    --dma-red: #f04c40;
+    --dma-gold: #ef9e32;
+
+    --dma-ink: #1e1646;
+    --dma-canvas: #f5f1f8;
+    --dma-field-bg: #fcfbfd;
+    --dma-red-50: #fdeeed;
+    --dma-red-text: #c2372d;
+    --dma-border: #d9d0e4;
+    --dma-muted: #6f6894;
+    --dma-white: #ffffff;
+
+    --dma-font-display: "Grako", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --dma-font-logo: "Visby CF", "Helvetica Neue", Arial, sans-serif;
+    --dma-font-body: "DIN 2014", "DIN Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    --dma-radius: 8px;
+    --dma-radius-lg: 18px;
+    --dma-shadow: 0 30px 60px -20px rgba(30, 22, 70, 0.35), 0 10px 20px -10px rgba(30, 22, 70, 0.15);
+    --dma-focus-ring: 0 0 0 4px rgba(89, 76, 159, 0.22);
+
+    --bar-bg: #ffffff;
+    --bar-text: #3a3550;
+    --bar-border: #d9d5e3;
+}
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bar-bg: #221e3a; --bar-text: #e3def5; --bar-border: #3a3458; }
+}
+:root[data-theme="dark"] { --bar-bg: #221e3a; --bar-text: #e3def5; --bar-border: #3a3458; }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { margin: 0; background: var(--dma-canvas); font-family: var(--dma-font-body); color: var(--dma-ink); -webkit-font-smoothing: antialiased; }
+
+/* ---------- Review toolbar (not part of Salesforce page) ---------- */
+.review-bar {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+    display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem;
+    padding: .625rem 1rem; background: var(--bar-bg); color: var(--bar-text);
+    border-bottom: 1px solid var(--bar-border); font-size: .8125rem;
+}
+.review-bar strong { margin-right: auto; }
+.review-group { display: flex; gap: .25rem; flex-wrap: wrap; }
+.review-btn { padding: .375rem .75rem; border: 1px solid var(--bar-border); border-radius: 999px; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.review-btn[aria-pressed="true"] { background: var(--dma-purple); border-color: var(--dma-purple); color: #fff; }
+.review-btn:focus-visible { outline: 2px solid var(--dma-light-blue); outline-offset: 2px; }
+
+.stage { transition: padding .2s ease; }
+.frame { margin: 0 auto; }
+.stage.is-mobile { padding: 2rem 1rem 4rem; }
+.stage.is-mobile .frame { max-width: 390px; border-radius: 28px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,.2); outline: 1px solid var(--bar-border); background: var(--dma-canvas); }
+
+/* ======================= DMA FORM ======================= */
+.dma-page { position: relative; padding-bottom: 4rem; }
+
+/* Hero band — mirrors site hero */
+.dma-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 4rem 1.5rem 9rem;
+    background:
+        radial-gradient(circle at 88% 12%, rgba(160, 216, 231, .22) 0, rgba(160, 216, 231, 0) 38%),
+        radial-gradient(circle at 8% 100%, rgba(89, 76, 159, .75) 0, rgba(89, 76, 159, 0) 55%),
+        repeating-linear-gradient(135deg, rgba(221, 203, 228, .06) 0 2px, transparent 2px 22px),
+        var(--dma-deep-blue);
+    color: var(--dma-white);
+}
+.dma-hero-inner { max-width: 960px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem; }
+.dma-eyebrow { margin: 0 0 .75rem; font-family: var(--dma-font-logo); font-weight: 800; font-size: 1rem; color: var(--dma-light-blue); }
+.dma-title {
+    margin: 0;
+    font-family: var(--dma-font-display);
+    font-weight: 400;
+    font-size: 4rem;
+    line-height: .95;
+    text-transform: uppercase;
+    color: var(--dma-white);
+}
+.dma-title-sub { display: block; margin-top: .35rem; font-size: 1.5rem; line-height: 1.15; color: var(--dma-lavender); }
+.dma-lede { max-width: 30rem; margin: 1.25rem 0 0; font-size: 1.0625rem; line-height: 1.55; color: rgba(255, 255, 255, .86); }
+
+/* Brand accent bar: Lavender / Light Blue / Gold */
+.dma-bar { display: flex; width: 168px; height: 6px; margin-top: 1.5rem; border-radius: 3px; overflow: hidden; }
+.dma-bar span { flex: 1; }
+.dma-bar span:nth-child(1) { background: var(--dma-lavender); }
+.dma-bar span:nth-child(2) { background: var(--dma-light-blue); }
+.dma-bar span:nth-child(3) { background: var(--dma-gold); }
+
+.dma-hotline {
+    display: inline-flex; align-items: center; gap: .75rem;
+    padding: .75rem 1.125rem .75rem .75rem;
+    border: 1px solid rgba(160, 216, 231, .45); border-radius: 999px;
+    background: rgba(255, 255, 255, .06);
+    color: var(--dma-white); text-decoration: none; font-size: .8125rem; line-height: 1.25;
+}
+.dma-hotline b { display: block; font-family: var(--dma-font-logo); font-weight: 800; font-size: 1rem; color: var(--dma-light-blue); }
+.dma-hotline-icon { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: var(--dma-light-blue); color: var(--dma-deep-blue); }
+.dma-hotline:hover { background: rgba(255, 255, 255, .12); }
+.dma-hotline:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--dma-light-blue); }
+
+/* Card overlaps hero */
+.dma-card {
+    position: relative;
+    max-width: 960px;
+    margin: -6rem auto 0;
+    background: var(--dma-white);
+    border-radius: var(--dma-radius-lg);
+    box-shadow: var(--dma-shadow);
+    font-size: .9375rem;
+    line-height: 1.5;
+}
+.dma-card input, .dma-card select, .dma-card button { font-family: var(--dma-font-body); }
+.dma-body { padding: 2.75rem 3rem 2.5rem; }
+
+/* Numbered sections — the form is a real sequence */
+.dma-section { margin-bottom: 2.5rem; }
+.dma-section-head { display: flex; align-items: center; gap: .875rem; margin-bottom: 1.25rem; }
+.dma-step {
+    flex: none; display: inline-flex; align-items: center; justify-content: center;
+    width: 2.25rem; height: 2.25rem; border-radius: 50%;
+    background: var(--dma-light-blue); color: var(--dma-deep-blue);
+    font-family: var(--dma-font-logo); font-weight: 800; font-size: 1rem;
+}
+.dma-section-title {
+    margin: 0; font-family: var(--dma-font-display); font-weight: 400; font-size: 1.625rem; line-height: 1.1;
+    text-transform: uppercase; color: var(--dma-purple);
+}
+.dma-section-head::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, var(--dma-lavender), rgba(221, 203, 228, 0)); }
+
+.grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 1.25rem; }
+.grid-addr { display: grid; grid-template-columns: 2fr 1fr 1fr; column-gap: 1.25rem; }
+.span-all { grid-column: 1 / -1; }
+
+.field { margin-bottom: 1.125rem; }
+.field label { display: block; margin-bottom: .375rem; font-weight: 700; font-size: .8125rem; color: var(--dma-deep-blue); }
+.req { color: var(--dma-red); margin-right: 3px; }
+.input, .select {
+    display: block; width: 100%; min-height: 2.875rem; padding: 0 .875rem;
+    border: 1.5px solid var(--dma-border); border-radius: var(--dma-radius);
+    background: var(--dma-field-bg); color: var(--dma-deep-blue); font-size: .9375rem;
+    transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+.select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23594c9f' stroke-width='2'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right .875rem center; padding-right: 2.25rem;
+}
+.input:hover, .select:hover { border-color: #b9acd0; }
+.input:focus, .select:focus { outline: none; border-color: var(--dma-purple); background-color: var(--dma-white); box-shadow: var(--dma-focus-ring); }
+.input::placeholder { color: var(--dma-muted); }
+
+.field-error { display: none; margin-top: .3rem; font-size: .8125rem; font-weight: 700; color: var(--dma-red-text); }
+.show-errors .field.is-empty .input, .show-errors .field.is-empty .select { border-color: var(--dma-red); background: #fffafa; box-shadow: 0 0 0 3px rgba(240, 76, 64, .14); }
+.show-errors .field.is-empty .field-error { display: block; }
+
+/* Toggle-style "same as physical" */
+.dma-switch { display: inline-flex; align-items: center; gap: .625rem; margin: 0 0 1.125rem; font-weight: 700; font-size: .875rem; color: var(--dma-purple); cursor: pointer; }
+.dma-switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.dma-switch-track { position: relative; width: 40px; height: 22px; border-radius: 11px; background: var(--dma-lavender); transition: background-color .15s ease; }
+.dma-switch-track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--dma-white); box-shadow: 0 1px 3px rgba(30,22,70,.3); transition: transform .15s ease; }
+.dma-switch input:checked + .dma-switch-track { background: var(--dma-purple); }
+.dma-switch input:checked + .dma-switch-track::after { transform: translateX(18px); }
+.dma-switch input:focus-visible + .dma-switch-track { box-shadow: var(--dma-focus-ring); }
+
+.dma-help-text { display: flex; gap: .5rem; margin: .5rem 0 0; font-size: .8125rem; line-height: 1.4; color: var(--dma-teal); }
+.dma-help-text::before { content: "i"; flex: none; display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; margin-top: 1px; border-radius: 50%; background: var(--dma-teal); color: #fff; font-size: .6875rem; font-weight: 700; font-style: italic; }
+
+/* Payment panel — the one dark moment inside the card */
+.dma-pay-panel {
+    position: relative; overflow: hidden;
+    margin: 0 -1rem 2rem;
+    padding: 2rem 2rem 1rem;
+    border-radius: 14px;
+    background:
+        radial-gradient(circle at 100% 0, rgba(160, 216, 231, .18) 0, rgba(160, 216, 231, 0) 45%),
+        linear-gradient(135deg, var(--dma-deep-blue) 0%, #2d2263 60%, var(--dma-purple) 130%);
+    color: var(--dma-white);
+}
+.dma-pay-panel .dma-section-title { color: var(--dma-white); }
+.dma-pay-panel .dma-section-head::after { background: linear-gradient(90deg, rgba(160, 216, 231, .55), rgba(160, 216, 231, 0)); }
+.dma-pay-panel .field label { color: var(--dma-light-blue); }
+.dma-pay-panel .input, .dma-pay-panel .select { border-color: transparent; background-color: var(--dma-white); }
+.dma-pay-panel .input:focus, .dma-pay-panel .select:focus { border-color: var(--dma-light-blue); box-shadow: 0 0 0 4px rgba(160, 216, 231, .35); }
+.dma-pay-panel .field-error { color: #ffb3ad; }
+.dma-pay-panel .req { color: var(--dma-gold); }
+
+.dma-note {
+    display: flex; gap: .625rem; align-items: flex-start;
+    margin: .25rem 0 1rem; padding: .75rem 1rem;
+    border-left: 4px solid var(--dma-gold); border-radius: 0 var(--dma-radius) var(--dma-radius) 0;
+    background: rgba(239, 158, 50, .14);
+    font-size: .875rem; line-height: 1.45; color: var(--dma-white);
+}
+
+.dma-error {
+    display: none; margin: 1rem 0; padding: .75rem 1rem;
+    background: var(--dma-red-50); border: 1px solid var(--dma-red); border-left-width: 4px; border-radius: var(--dma-radius);
+    font-weight: 700; color: var(--dma-red-text);
+}
+.show-errors .dma-error { display: block; }
+
+.dma-recaptcha { display: flex; justify-content: center; margin: 1.5rem 0 1.25rem; }
+.fake-captcha {
+    display: flex; align-items: center; justify-content: space-between; width: 304px; max-width: 100%; height: 78px;
+    padding: 0 .75rem 0 .875rem; border: 1px solid #d3d3d3; border-radius: 3px; background: #f9f9f9;
+    box-shadow: 0 0 4px rgba(0,0,0,.08); font-family: Roboto, Arial, sans-serif; font-size: 14px; color: #282828;
+}
+.fake-captcha label { display: flex; align-items: center; gap: .75rem; cursor: pointer; }
+.fake-captcha input { width: 26px; height: 26px; margin: 0; accent-color: #1a73e8; }
+.fake-captcha small { font-size: 10px; color: #555; text-align: center; line-height: 1.2; }
+
+/* Pill CTA with arrow — matches site buttons */
+.dma-actions { display: flex; justify-content: center; }
+.dma-btn {
+    display: inline-flex; align-items: center; justify-content: space-between; gap: 1rem;
+    width: 100%; max-width: 440px; min-height: 3.5rem; padding: .375rem .375rem .375rem 1.75rem;
+    border: 0; border-radius: 999px;
+    background: var(--dma-purple); color: var(--dma-white);
+    font-family: var(--dma-font-logo); font-weight: 800; font-size: 1.0625rem; letter-spacing: .02em;
+    cursor: pointer; box-shadow: 0 12px 24px -10px rgba(89, 76, 159, .7);
+    transition: background-color .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+.dma-btn-arrow { display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; border-radius: 50%; background: var(--dma-light-blue); color: var(--dma-deep-blue); transition: transform .15s ease; }
+.dma-btn:hover { background: var(--dma-deep-blue); box-shadow: 0 14px 28px -10px rgba(30, 22, 70, .8); }
+.dma-btn:hover .dma-btn-arrow { transform: translateX(3px); }
+.dma-btn:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--dma-light-blue); }
+.dma-btn:disabled { background: var(--dma-lavender); color: var(--dma-muted); box-shadow: none; cursor: not-allowed; }
+
+.dma-disclaimer { margin: 1.25rem auto 0; max-width: 560px; text-align: center; font-size: .8125rem; color: var(--dma-muted); }
+.dma-disclaimer b { color: var(--dma-red); }
+
+/* Card footer */
+.dma-foot {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;
+    padding: 1.25rem 3rem; border-top: 1px solid #ece5f1;
+    background: #faf7fc; border-radius: 0 0 var(--dma-radius-lg) var(--dma-radius-lg);
+    font-size: .8125rem; color: var(--dma-muted);
+}
+.dma-social { display: flex; gap: .5rem; }
+.dma-social a { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: var(--dma-purple); color: var(--dma-white); transition: background-color .15s ease; }
+.dma-social a:hover { background: var(--dma-deep-blue); }
+.dma-social a:focus-visible { outline: none; box-shadow: var(--dma-focus-ring); }
+.dma-social svg { width: 17px; height: 17px; }
+
+/* ---------- Payment modal ---------- */
+.dma-backdrop { position: fixed; inset: 0; z-index: 80; display: none; background: rgba(30, 22, 70, .78); backdrop-filter: blur(3px); }
+.dma-modal { position: fixed; inset: 0; z-index: 90; display: none; align-items: flex-start; justify-content: center; padding: calc(4rem + env(safe-area-inset-top, 0px)) 1rem 2rem; overflow-y: auto; }
+.modal-open .dma-backdrop { display: block; }
+.modal-open .dma-modal { display: flex; }
+.dma-modal-container { width: 100%; max-width: 520px; background: var(--dma-white); border-radius: var(--dma-radius-lg); box-shadow: 0 30px 70px rgba(0,0,0,.4); color: var(--dma-ink); }
+.dma-modal-header {
+    position: relative; padding: 1.5rem 3.5rem 1.25rem 1.75rem; border-radius: var(--dma-radius-lg) var(--dma-radius-lg) 0 0;
+    background:
+        radial-gradient(circle at 100% 0, rgba(160, 216, 231, .25) 0, rgba(160, 216, 231, 0) 50%),
+        repeating-linear-gradient(135deg, rgba(221, 203, 228, .06) 0 2px, transparent 2px 22px),
+        var(--dma-deep-blue);
+}
+.dma-modal-header h2 { margin: 0; font-family: var(--dma-font-display); font-weight: 400; font-size: 1.75rem; text-transform: uppercase; color: var(--dma-white); }
+.dma-modal-header p { margin: .25rem 0 0; font-size: .875rem; color: var(--dma-lavender); }
+.dma-modal-header .dma-bar { margin-top: 1rem; width: 120px; height: 4px; }
+.modal-close { position: absolute; top: 1.25rem; right: 1rem; width: 34px; height: 34px; border: 0; border-radius: 50%; background: rgba(255,255,255,.1); color: #fff; font-size: 1.375rem; line-height: 1; cursor: pointer; }
+.modal-close:hover { background: rgba(255,255,255,.2); }
+.modal-close:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--dma-light-blue); }
+
+.dma-pay { padding: 1.75rem; }
+.dma-row { display: flex; gap: 1rem; }
+.dma-row .field { flex: 1 1 0; min-width: 0; }
+.card-input { display: flex; align-items: center; gap: .625rem; min-height: 3rem; padding: 0 .875rem; border: 1.5px solid var(--dma-border); border-radius: var(--dma-radius); background: var(--dma-field-bg); transition: border-color .15s ease, box-shadow .15s ease; }
+.card-input:focus-within { border-color: var(--dma-purple); background: #fff; box-shadow: var(--dma-focus-ring); }
+.card-input.is-invalid { border-color: var(--dma-red); box-shadow: 0 0 0 3px rgba(240, 76, 64, .14); }
+.card-input input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--dma-deep-blue); font-size: 16px; line-height: 44px; }
+.card-input input::placeholder { color: var(--dma-muted); }
+.card-input svg { flex: none; width: 24px; height: 17px; }
+.card-input.is-invalid input { color: var(--dma-red-text); }
+.dma-card-error { display: none; margin: 0 0 1rem; padding: .625rem .875rem; background: var(--dma-red-50); border-left: 4px solid var(--dma-red); border-radius: var(--dma-radius); font-size: .8125rem; font-weight: 700; color: var(--dma-red-text); }
+.dma-card-error.is-visible { display: block; }
+.dma-amount { display: flex; justify-content: space-between; align-items: baseline; margin: 0 0 1.25rem; padding: .875rem 1rem; border-radius: var(--dma-radius); background: var(--dma-canvas); font-size: .875rem; color: var(--dma-muted); }
+.dma-amount strong { font-family: var(--dma-font-logo); font-weight: 800; font-size: 1.375rem; color: var(--dma-deep-blue); }
+.dma-secure-note { display: flex; align-items: center; justify-content: center; gap: .375rem; margin: .875rem 0 0; font-size: .75rem; color: var(--dma-muted); }
+.dma-modal-footer { display: flex; justify-content: flex-end; padding: .875rem 1.75rem; border-top: 1px solid #ece5f1; background: #faf7fc; border-radius: 0 0 var(--dma-radius-lg) var(--dma-radius-lg); }
+.dma-btn-secondary { min-height: 2.5rem; padding: 0 1.25rem; border: 1.5px solid var(--dma-purple); border-radius: 999px; background: var(--dma-white); color: var(--dma-purple); font-weight: 700; cursor: pointer; }
+.dma-btn-secondary:hover { background: var(--dma-lavender); color: var(--dma-deep-blue); }
+.dma-btn-secondary:focus-visible { outline: none; box-shadow: var(--dma-focus-ring); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 767px) {
+    .dma-hero { padding: 2.5rem 1.25rem 7rem; }
+    .dma-title { font-size: 2.75rem; }
+    .dma-title-sub { font-size: 1.125rem; }
+    .dma-card { margin: -4.5rem .75rem 0; border-radius: 14px; }
+    .dma-body { padding: 1.75rem 1.25rem 2rem; }
+    .dma-section-title { font-size: 1.3rem; }
+    .grid { grid-template-columns: 1fr; }
+    .grid-addr { grid-template-columns: 1fr 1fr; }
+    .grid-addr .city { grid-column: 1 / -1; }
+    .dma-pay-panel { margin: 0 -.5rem 2rem; padding: 1.5rem 1.25rem .75rem; }
+    .dma-foot { padding: 1.25rem; justify-content: center; text-align: center; }
+    .dma-btn { max-width: none; }
+}
+.stage.is-mobile .dma-hero { padding: 2.5rem 1.25rem 7rem; }
+.stage.is-mobile .dma-title { font-size: 2.75rem; }
+.stage.is-mobile .dma-title-sub { font-size: 1.125rem; }
+.stage.is-mobile .dma-card { margin: -4.5rem .75rem 0; border-radius: 14px; }
+.stage.is-mobile .dma-body { padding: 1.75rem 1.25rem 2rem; }
+.stage.is-mobile .dma-section-title { font-size: 1.3rem; }
+.stage.is-mobile .grid { grid-template-columns: 1fr; }
+.stage.is-mobile .grid-addr { grid-template-columns: 1fr 1fr; }
+.stage.is-mobile .grid-addr .city { grid-column: 1 / -1; }
+.stage.is-mobile .dma-pay-panel { margin: 0 -.5rem 2rem; padding: 1.5rem 1.25rem .75rem; }
+.stage.is-mobile .dma-foot { padding: 1.25rem; justify-content: center; text-align: center; }
+.stage.is-mobile .dma-btn { max-width: none; }
+
+@media (max-width: 420px) { .dma-pay { padding: 1.25rem; } .dma-row { flex-direction: column; gap: 0; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="review-bar" role="toolbar" aria-label="Preview controls">
+    <strong>DMA Membership Form · preview v2</strong>
+    <div class="review-group">
+        <button class="review-btn" id="btn-desktop" aria-pressed="true">Desktop</button>
+        <button class="review-btn" id="btn-mobile" aria-pressed="false">Mobile</button>
+    </div>
+    <div class="review-group">
+        <button class="review-btn" id="btn-errors" aria-pressed="false">Show validation errors</button>
+        <button class="review-btn" id="btn-modal">Open card payment</button>
+    </div>
+</div>
+
+<main class="stage" id="stage">
+  <div class="frame">
+    <div class="dma-page">
+
+      <section class="dma-hero">
+        <div class="dma-hero-inner">
+          <div>
+            <p class="dma-eyebrow">Invest in Downtown</p>
+            <h1 class="dma-title">Join the Alliance<span class="dma-title-sub">Membership application</span></h1>
+            <p class="dma-lede">Your membership helps keep downtown Mobile clean, safe and full of life, and connects your business to the people shaping the district.</p>
+            <div class="dma-bar" aria-hidden="true"><span></span><span></span><span></span></div>
+          </div>
+          <a class="dma-hotline" href="https://www.downtownmobile.org/join-the-alliance/#member-benefits" target="_blank" rel="noopener noreferrer">
+            <span class="dma-hotline-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            <span>Not sure which level?<b>See member benefits</b></span>
+          </a>
+        </div>
+      </section>
+
+      <article class="dma-card">
+        <form class="dma-body" id="member-form" novalidate>
+
+          <section class="dma-section">
+            <div class="dma-section-head"><span class="dma-step">1</span><h2 class="dma-section-title">Member Information</h2></div>
+            <div class="grid">
+              <div class="field"><label for="f-biz"><span class="req">*</span>Business Name</label><input class="input" id="f-biz" value="Dauphin Street Coffee Co."><div class="field-error">Complete this field.</div></div>
+              <div class="field"><label for="f-first"><span class="req">*</span>Contact First Name</label><input class="input" id="f-first" value="Jordan"><div class="field-error">Complete this field.</div></div>
+              <div class="field"><label for="f-last"><span class="req">*</span>Contact Last Name</label><input class="input" id="f-last" value="Ellis"><div class="field-error">Complete this field.</div></div>
+              <div class="field"><label for="f-email"><span class="req">*</span>Email</label><input class="input" id="f-email" type="email" placeholder="name@business.com"><div class="field-error">Complete this field.</div></div>
+              <div class="field"><label for="f-phone"><span class="req">*</span>Phone</label><input class="input" id="f-phone" placeholder="(251) 555-0123"><div class="field-error">Complete this field.</div></div>
+              <div class="field"><label for="f-title"><span class="req">*</span>Title</label><input class="input" id="f-title" value="Owner"><div class="field-error">Complete this field.</div></div>
+            </div>
+          </section>
+
+          <section class="dma-section">
+            <div class="dma-section-head"><span class="dma-step">2</span><h2 class="dma-section-title">Physical Address</h2></div>
+            <div class="field"><input class="input" id="pa1" aria-label="Physical address line 1" value="200 Dauphin St"><div class="field-error">Complete this field.</div></div>
+            <div class="field"><input class="input" id="pa2" aria-label="Physical address line 2" placeholder="Suite, unit (optional)"></div>
+            <div class="grid-addr">
+              <div class="field city"><label for="pa-city"><span class="req">*</span>City</label><input class="input" id="pa-city" value="Mobile"><div class="field-error">Complete this field.</div></div>
+              <div class="field"><label for="pa-state"><span class="req">*</span>State</label><input class="input" id="pa-state" value="AL"><div class="field-error">Complete this field.</div></div>
+              <div class="field"><label for="pa-zip"><span class="req">*</span>Zip</label><input class="input" id="pa-zip" value="36602"><div class="field-error">Complete this field.</div></div>
+            </div>
+          </section>
+
+          <section class="dma-section">
+            <div class="dma-section-head"><span class="dma-step">3</span><h2 class="dma-section-title">Mailing Address</h2></div>
+            <label class="dma-switch"><input type="checkbox" id="same-addr"><span class="dma-switch-track" aria-hidden="true"></span>Same as physical address</label>
+            <div class="field"><input class="input" id="ma1" aria-label="Mailing address line 1"><div class="field-error">Complete this field.</div></div>
+            <div class="field"><input class="input" id="ma2" aria-label="Mailing address line 2" placeholder="Suite, unit (optional)"></div>
+            <div class="grid-addr">
+              <div class="field city"><label for="ma-city"><span class="req">*</span>City</label><input class="input" id="ma-city"><div class="field-error">Complete this field.</div></div>
+              <div class="field"><label for="ma-state"><span class="req">*</span>State</label><input class="input" id="ma-state"><div class="field-error">Complete this field.</div></div>
+              <div class="field"><label for="ma-zip"><span class="req">*</span>Zip</label><input class="input" id="ma-zip"><div class="field-error">Complete this field.</div></div>
+            </div>
+          </section>
+
+          <section class="dma-section">
+            <div class="dma-section-head"><span class="dma-step">4</span><h2 class="dma-section-title">Other Information</h2></div>
+            <div class="grid">
+              <div class="field"><label for="o-web">Website</label><input class="input" id="o-web" placeholder="https://"></div>
+              <div class="field"><label for="o-cat"><span class="req">*</span>Business Category</label>
+                <select class="select" id="o-cat"><option value="">--None--</option><option selected>Restaurant / Dining</option><option>Retail</option><option>Professional Services</option><option>Arts &amp; Culture</option></select>
+                <div class="field-error">Complete this field.</div></div>
+              <div class="field"><label for="o-emp"><span class="req">*</span>Number of Employees</label><input class="input" id="o-emp" value="12"><div class="field-error">Complete this field.</div></div>
+              <div class="field"><label for="o-staff"><span class="req">*</span>Staff Name</label><input class="input" id="o-staff"><div class="field-error">Complete this field.</div>
+                <p class="dma-help-text">Enter the name of the DMA staff member who helped you with this application.</p></div>
+              <div class="field span-all"><label for="o-other">Other Important Contacts</label><input class="input" id="o-other" placeholder="Name, role, email"></div>
+            </div>
+          </section>
+
+          <section class="dma-pay-panel">
+            <div class="dma-section-head"><span class="dma-step">5</span><h2 class="dma-section-title">Membership &amp; Payment</h2></div>
+            <div class="grid">
+              <div class="field"><label for="m-level"><span class="req">*</span>Membership Level</label>
+                <select class="select" id="m-level"><option value="">--None--</option><option selected>Business — $250</option><option>Corporate — $500</option><option>Patron — $1,000</option></select>
+                <div class="field-error">Complete this field.</div></div>
+              <div class="field"><label for="m-pay"><span class="req">*</span>Payment Type</label>
+                <select class="select" id="m-pay"><option value="">--None--</option><option selected>Credit Card</option><option>Will Pay By Check</option><option>Please Invoice</option></select>
+                <div class="field-error">Complete this field.</div></div>
+              <div class="field"><label for="m-amt"><span class="req">*</span>Amount to Pay</label><input class="input" id="m-amt" value="250.00"><div class="field-error">Complete this field.</div></div>
+            </div>
+            <p class="dma-note">A processing fee of 3% will be added to payments by credit card.</p>
+          </section>
+
+          <div class="dma-recaptcha">
+            <div class="fake-captcha"><label><input type="checkbox"> I'm not a robot</label><small>reCAPTCHA<br>Privacy · Terms</small></div>
+          </div>
+
+          <div class="dma-error" role="alert">Please complete the reCAPTCHA verification.</div>
+
+          <div class="dma-actions">
+            <button type="button" class="dma-btn" id="primary-btn"><span id="primary-label">Pay by Credit Card</span>
+              <span class="dma-btn-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </button>
+          </div>
+
+          <p class="dma-disclaimer"><b>*</b> This application is not valid until approval from DMA and payment is received.</p>
+        </form>
+
+        <footer class="dma-foot">
+          <span>Proudly supporting the businesses, culture and community of Downtown Mobile.</span>
+          <nav class="dma-social" aria-label="Downtown Mobile Alliance social media">
+            <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8h3V4h-3c-2.8 0-4 1.7-4 4.2V10H7v4h3v8h4v-8h3l1-4h-4V8.6c0-.4.3-.6.6-.6z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+            <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12c0 1.6.2 3.2.5 4.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.3-1.6.5-3.2.5-4.8s-.2-3.2-.5-4.8zM9.8 15V9l5.8 3-5.8 3z"/></svg></a>
+          </nav>
+        </footer>
+      </article>
+    </div>
+  </div>
+</main>
+
+<div class="dma-backdrop" id="backdrop"></div>
+<div class="dma-modal" role="dialog" aria-modal="true" aria-labelledby="pay-heading" id="pay-modal">
+  <div class="dma-modal-container">
+    <div class="dma-modal-header">
+      <h2 id="pay-heading">Credit Card Payment</h2>
+      <p>Secure checkout for your membership</p>
+      <div class="dma-bar" aria-hidden="true"><span></span><span></span><span></span></div>
+      <button class="modal-close" id="modal-x" aria-label="Close">&times;</button>
+    </div>
+    <div class="dma-pay">
+      <div class="dma-amount"><span>Membership amount<br><small>+ 3% card processing fee</small></span><strong id="amt-due">$250.00</strong></div>
+      <div class="field">
+        <label for="cc-num">Card Number</label>
+        <div class="card-input" id="cc-wrap">
+          <svg viewBox="0 0 24 17" aria-hidden="true"><rect x=".75" y=".75" width="22.5" height="15.5" rx="2.5" fill="none" stroke="#594c9f" stroke-width="1.5"/><rect x="0" y="4.5" width="24" height="3" fill="#594c9f"/></svg>
+          <input id="cc-num" inputmode="numeric" placeholder="1234 1234 1234 1234">
+        </div>
+      </div>
+      <div class="dma-row">
+        <div class="field"><label for="cc-exp">Expiry Date</label><div class="card-input"><input id="cc-exp" placeholder="MM / YY"></div></div>
+        <div class="field"><label for="cc-cvc">CVC</label><div class="card-input"><input id="cc-cvc" placeholder="CVC"></div></div>
+      </div>
+      <div class="dma-card-error" id="cc-error" role="alert">Your card number is incomplete.</div>
+      <button type="button" class="dma-btn" id="pay-btn" style="max-width:none"><span id="pay-label">Make Payment</span>
+        <span class="dma-btn-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </button>
+      <p class="dma-secure-note"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17 9V7A5 5 0 0 0 7 7v2H5v13h14V9h-2zM9 7a3 3 0 0 1 6 0v2H9V7z"/></svg>Payments are processed securely by Stripe.</p>
+    </div>
+    <div class="dma-modal-footer"><button class="dma-btn-secondary" id="modal-cancel">Cancel</button></div>
+  </div>
+</div>
+
+<script>
+(function () {
+    var stage = document.getElementById('stage');
+    var desk = document.getElementById('btn-desktop');
+    var mob = document.getElementById('btn-mobile');
+    var errBtn = document.getElementById('btn-errors');
+    var form = document.getElementById('member-form');
+
+    function setMode(m) { stage.classList.toggle('is-mobile', m); desk.setAttribute('aria-pressed', String(!m)); mob.setAttribute('aria-pressed', String(m)); }
+    desk.addEventListener('click', function () { setMode(false); });
+    mob.addEventListener('click', function () { setMode(true); });
+
+    function markEmpty() {
+        form.querySelectorAll('.field').forEach(function (f) {
+            var req = f.querySelector('.req'), ctl = f.querySelector('.input, .select');
+            f.classList.toggle('is-empty', !!req && !!ctl && !ctl.value.trim());
+        });
+        ['pa1', 'ma1'].forEach(function (id) { var el = document.getElementById(id); el.closest('.field').classList.toggle('is-empty', !el.value.trim()); });
+    }
+    errBtn.addEventListener('click', function () {
+        var on = !form.classList.contains('show-errors');
+        markEmpty(); form.classList.toggle('show-errors', on); errBtn.setAttribute('aria-pressed', String(on));
+    });
+    form.addEventListener('input', function () { if (form.classList.contains('show-errors')) markEmpty(); });
+
+    var pairs = [['pa1','ma1'],['pa2','ma2'],['pa-city','ma-city'],['pa-state','ma-state'],['pa-zip','ma-zip']];
+    document.getElementById('same-addr').addEventListener('change', function (e) {
+        pairs.forEach(function (p) { document.getElementById(p[1]).value = e.target.checked ? document.getElementById(p[0]).value : ''; });
+        if (form.classList.contains('show-errors')) markEmpty();
+    });
+
+    var payType = document.getElementById('m-pay');
+    var label = document.getElementById('primary-label');
+    payType.addEventListener('change', function () { label.textContent = payType.value === 'Credit Card' ? 'Pay by Credit Card' : 'Submit Application'; });
+
+    var amt = document.getElementById('m-amt');
+    function syncAmt() {
+        var v = parseFloat(amt.value.replace(/[^0-9.]/g, '')) || 0;
+        document.getElementById('amt-due').textContent = '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    amt.addEventListener('input', syncAmt);
+
+    var lastFocus;
+    function openModal() { syncAmt(); lastFocus = document.activeElement; document.body.classList.add('modal-open'); document.getElementById('cc-num').focus(); }
+    function closeModal() { document.body.classList.remove('modal-open'); if (lastFocus) lastFocus.focus(); }
+    document.getElementById('btn-modal').addEventListener('click', openModal);
+    document.getElementById('primary-btn').addEventListener('click', function () { if (payType.value === 'Credit Card') openModal(); });
+    document.getElementById('modal-x').addEventListener('click', closeModal);
+    document.getElementById('modal-cancel').addEventListener('click', closeModal);
+    document.getElementById('backdrop').addEventListener('click', closeModal);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && document.body.classList.contains('modal-open')) closeModal(); });
+
+    document.getElementById('pay-btn').addEventListener('click', function () {
+        var bad = document.getElementById('cc-num').value.replace(/\s/g, '').length < 15;
+        document.getElementById('cc-wrap').classList.toggle('is-invalid', bad);
+        document.getElementById('cc-error').classList.toggle('is-visible', bad);
+        if (!bad) { document.getElementById('pay-label').textContent = 'Preview only'; this.disabled = true; }
+    });
+})();
+</script>
+</body>
+</html>
