@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>DMA Membership Form — Brand Preview v2</title>
+<title>DMA Membership Form — Brand Preview v2 (solid)</title>
 <style>
 :root {
     box-sizing: border-box;
@@ -26,6 +26,10 @@
     --dma-border: #d9d0e4;
     --dma-muted: #6f6894;
     --dma-white: #ffffff;
+    --dma-light-blue-50: #eef8fb;
+    --dma-lavender-50: #f8f4fa;
+    /* Hero photo (optional). Salesforce: static resource URL */
+    --dma-hero-image: url('https://www.downtownmobile.org/wp-content/uploads/2026/07/Home-Header-Desktop-scaled.jpg');
 
     --dma-font-display: "Grako", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
     --dma-font-logo: "Visby CF", "Helvetica Neue", Arial, sans-serif;
@@ -75,12 +79,19 @@ body { margin: 0; background: var(--dma-canvas); font-family: var(--dma-font-bod
     position: relative;
     overflow: hidden;
     padding: 4rem 1.5rem 9rem;
-    background:
-        radial-gradient(circle at 88% 12%, rgba(160, 216, 231, .22) 0, rgba(160, 216, 231, 0) 38%),
-        radial-gradient(circle at 8% 100%, rgba(89, 76, 159, .75) 0, rgba(89, 76, 159, 0) 55%),
-        repeating-linear-gradient(135deg, rgba(221, 203, 228, .06) 0 2px, transparent 2px 22px),
-        var(--dma-deep-blue);
+    background-color: var(--dma-deep-blue);
     color: var(--dma-white);
+    isolation: isolate;
+}
+/* Option B: photo with a flat Deep Blue overlay */
+.dma-hero.has-photo {
+    background-image: var(--dma-hero-image);
+    background-size: cover;
+    background-position: center;
+}
+.dma-hero.has-photo::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background-color: rgba(30, 22, 70, .78);
 }
 .dma-hero-inner { max-width: 960px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem; }
 .dma-eyebrow { margin: 0 0 .75rem; font-family: var(--dma-font-logo); font-weight: 800; font-size: 1rem; color: var(--dma-light-blue); }
@@ -142,7 +153,7 @@ body { margin: 0; background: var(--dma-canvas); font-family: var(--dma-font-bod
     margin: 0; font-family: var(--dma-font-display); font-weight: 400; font-size: 1.625rem; line-height: 1.1;
     text-transform: uppercase; color: var(--dma-purple);
 }
-.dma-section-head::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, var(--dma-lavender), rgba(221, 203, 228, 0)); }
+.dma-section-head::after { content: ""; flex: 1; height: 2px; background: var(--dma-lavender); }
 
 .grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 1.25rem; }
 .grid-addr { display: grid; grid-template-columns: 2fr 1fr 1fr; column-gap: 1.25rem; }
@@ -182,31 +193,22 @@ body { margin: 0; background: var(--dma-canvas); font-family: var(--dma-font-bod
 .dma-help-text { display: flex; gap: .5rem; margin: .5rem 0 0; font-size: .8125rem; line-height: 1.4; color: var(--dma-teal); }
 .dma-help-text::before { content: "i"; flex: none; display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; margin-top: 1px; border-radius: 50%; background: var(--dma-teal); color: #fff; font-size: .6875rem; font-weight: 700; font-style: italic; }
 
-/* Payment panel — the one dark moment inside the card */
+/* Membership & Payment — highlight panel (from Demo V1, client pick) */
 .dma-pay-panel {
-    position: relative; overflow: hidden;
-    margin: 0 -1rem 2rem;
-    padding: 2rem 2rem 1rem;
-    border-radius: 14px;
-    background:
-        radial-gradient(circle at 100% 0, rgba(160, 216, 231, .18) 0, rgba(160, 216, 231, 0) 45%),
-        linear-gradient(135deg, var(--dma-deep-blue) 0%, #2d2263 60%, var(--dma-purple) 130%);
-    color: var(--dma-white);
+    margin: 0 0 2rem;
+    padding: 1.75rem 1.75rem .75rem;
+    background: var(--dma-light-blue-50);
+    border: 1px solid var(--dma-light-blue);
+    border-left: 6px solid var(--dma-purple);
+    border-radius: var(--dma-radius);
 }
-.dma-pay-panel .dma-section-title { color: var(--dma-white); }
-.dma-pay-panel .dma-section-head::after { background: linear-gradient(90deg, rgba(160, 216, 231, .55), rgba(160, 216, 231, 0)); }
-.dma-pay-panel .field label { color: var(--dma-light-blue); }
-.dma-pay-panel .input, .dma-pay-panel .select { border-color: transparent; background-color: var(--dma-white); }
-.dma-pay-panel .input:focus, .dma-pay-panel .select:focus { border-color: var(--dma-light-blue); box-shadow: 0 0 0 4px rgba(160, 216, 231, .35); }
-.dma-pay-panel .field-error { color: #ffb3ad; }
-.dma-pay-panel .req { color: var(--dma-gold); }
+.dma-pay-panel .dma-section-head::after { background: var(--dma-light-blue); }
 
 .dma-note {
-    display: flex; gap: .625rem; align-items: flex-start;
     margin: .25rem 0 1rem; padding: .75rem 1rem;
     border-left: 4px solid var(--dma-gold); border-radius: 0 var(--dma-radius) var(--dma-radius) 0;
-    background: rgba(239, 158, 50, .14);
-    font-size: .875rem; line-height: 1.45; color: var(--dma-white);
+    background: var(--dma-lavender-50);
+    font-size: .875rem; line-height: 1.45; color: var(--dma-deep-blue);
 }
 
 .dma-error {
@@ -233,7 +235,7 @@ body { margin: 0; background: var(--dma-canvas); font-family: var(--dma-font-bod
     width: 100%; max-width: 440px; min-height: 3.5rem; padding: .375rem .375rem .375rem 1.75rem;
     border: 0; border-radius: 999px;
     background: var(--dma-purple); color: var(--dma-white);
-    font-family: var(--dma-font-logo); font-weight: 800; font-size: 1.0625rem; letter-spacing: .02em;
+    font-family: var(--dma-font-logo); font-weight: 800; font-size: 1.0625rem; letter-spacing: 0;
     cursor: pointer; box-shadow: 0 12px 24px -10px rgba(89, 76, 159, .7);
     transition: background-color .15s ease, transform .15s ease, box-shadow .15s ease;
 }
@@ -267,10 +269,8 @@ body { margin: 0; background: var(--dma-canvas); font-family: var(--dma-font-bod
 .dma-modal-container { width: 100%; max-width: 520px; background: var(--dma-white); border-radius: var(--dma-radius-lg); box-shadow: 0 30px 70px rgba(0,0,0,.4); color: var(--dma-ink); }
 .dma-modal-header {
     position: relative; padding: 1.5rem 3.5rem 1.25rem 1.75rem; border-radius: var(--dma-radius-lg) var(--dma-radius-lg) 0 0;
-    background:
-        radial-gradient(circle at 100% 0, rgba(160, 216, 231, .25) 0, rgba(160, 216, 231, 0) 50%),
-        repeating-linear-gradient(135deg, rgba(221, 203, 228, .06) 0 2px, transparent 2px 22px),
-        var(--dma-deep-blue);
+    background-color: var(--dma-deep-blue);
+    border-bottom: 4px solid var(--dma-light-blue);
 }
 .dma-modal-header h2 { margin: 0; font-family: var(--dma-font-display); font-weight: 400; font-size: 1.75rem; text-transform: uppercase; color: var(--dma-white); }
 .dma-modal-header p { margin: .25rem 0 0; font-size: .875rem; color: var(--dma-lavender); }
@@ -310,7 +310,7 @@ body { margin: 0; background: var(--dma-canvas); font-family: var(--dma-font-bod
     .grid { grid-template-columns: 1fr; }
     .grid-addr { grid-template-columns: 1fr 1fr; }
     .grid-addr .city { grid-column: 1 / -1; }
-    .dma-pay-panel { margin: 0 -.5rem 2rem; padding: 1.5rem 1.25rem .75rem; }
+    .dma-pay-panel { margin: 0 0 2rem; padding: 1.25rem 1rem .25rem; }
     .dma-foot { padding: 1.25rem; justify-content: center; text-align: center; }
     .dma-btn { max-width: none; }
 }
@@ -323,7 +323,7 @@ body { margin: 0; background: var(--dma-canvas); font-family: var(--dma-font-bod
 .stage.is-mobile .grid { grid-template-columns: 1fr; }
 .stage.is-mobile .grid-addr { grid-template-columns: 1fr 1fr; }
 .stage.is-mobile .grid-addr .city { grid-column: 1 / -1; }
-.stage.is-mobile .dma-pay-panel { margin: 0 -.5rem 2rem; padding: 1.5rem 1.25rem .75rem; }
+.stage.is-mobile .dma-pay-panel { margin: 0 0 2rem; padding: 1.25rem 1rem .25rem; }
 .stage.is-mobile .dma-foot { padding: 1.25rem; justify-content: center; text-align: center; }
 .stage.is-mobile .dma-btn { max-width: none; }
 
@@ -334,10 +334,14 @@ body { margin: 0; background: var(--dma-canvas); font-family: var(--dma-font-bod
 <body>
 
 <div class="review-bar" role="toolbar" aria-label="Preview controls">
-    <strong>DMA Membership Form · preview v2</strong>
+    <strong>DMA Membership Form · preview v2 (solid colors)</strong>
     <div class="review-group">
         <button class="review-btn" id="btn-desktop" aria-pressed="true">Desktop</button>
         <button class="review-btn" id="btn-mobile" aria-pressed="false">Mobile</button>
+    </div>
+    <div class="review-group" aria-label="Hero background">
+        <button class="review-btn" id="btn-hero-solid" aria-pressed="true">Hero: solid</button>
+        <button class="review-btn" id="btn-hero-photo" aria-pressed="false">Hero: photo</button>
     </div>
     <div class="review-group">
         <button class="review-btn" id="btn-errors" aria-pressed="false">Show validation errors</button>
@@ -500,6 +504,14 @@ body { margin: 0; background: var(--dma-canvas); font-family: var(--dma-font-bod
 
     function setMode(m) { stage.classList.toggle('is-mobile', m); desk.setAttribute('aria-pressed', String(!m)); mob.setAttribute('aria-pressed', String(m)); }
     desk.addEventListener('click', function () { setMode(false); });
+    var hero = document.querySelector('.dma-hero');
+    function setHero(photo) {
+        hero.classList.toggle('has-photo', photo);
+        document.getElementById('btn-hero-solid').setAttribute('aria-pressed', String(!photo));
+        document.getElementById('btn-hero-photo').setAttribute('aria-pressed', String(photo));
+    }
+    document.getElementById('btn-hero-solid').addEventListener('click', function () { setHero(false); });
+    document.getElementById('btn-hero-photo').addEventListener('click', function () { setHero(true); });
     mob.addEventListener('click', function () { setMode(true); });
 
     function markEmpty() {
